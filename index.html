@@ -585,6 +585,8 @@ dialog::backdrop { background:rgba(15,23,42,.48); }
 const MASTER_ROSTERS = {};
 const DEFAULT_AVATAR = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAEM0lEQVR4nO3dMZIbRxAF0V6GTsYbyOUB5eoGOhItWnQohwiBEEBgBrOL+vnz2TSmq3NrEMuIxdvXb99/LAni06sfQDqSQQvFoIVi0EIxaKEYtFAMWigGLRSDFopBC8WghWLQQjFooRi0UAxaKAYtFIMWikELxaCFYtBCMWihGLRQDFooBi0UgxaKQQvFoIVi0EIxaKEYtFAMWih/vPoBaP76+59N//7Ln5/f6Uk6vfkHz5+zNeB7DPw5Br3D0RHfYtzbGfQGHxXyJcN+nEE/4FUhXzLs+wz6N6aEfMmwb/PXdjdMjXmt2c/2am7oC2mxuK1/5YY+kxbzWpnP/J4M+qfkMJKf/WgGvRhBEM5whPqgSSGQzrJXddDEAIhn2qI2aPLFk892T23QYqoMumGDNZzxmrqgmy666awndUGLrSroxo3VduaqoMVn0EKpCbrt1Xuu6ew1QauDQQulIuimV+4tLTOoCFo9DFooBi0UgxaKQQvFoIVi0EIxaKEYtFAMWigVQfv333pmUBG0ehi0UGqCbnnlXtN09pqg1cGghVIVdNOr96TtzFVBi68u6KaN1XTWk7qg1+q46IYzXlMZtLhqgyZvMPLZ7qkNei3mxRPPtEV10GuxAiCdZa/6oNdihEA4wxEM+qfkIJKf/WgGfSYxjMRnfk9+ef0N0/8WnCFf54a+YXIwk5/t1dzQD5iyrQ35PoPe4FVhG/LjDHqHjwrbkLcz6CcdHbcRP6c66Cmfjd9D6w9GVdDkgO9pCRwfdHPEt5DjxgZtyPcRw8YFbcjbkcJG/U+hMe9DmhtiQ5Mu5NXSt3X8hjbmY6XPMzro9OFPlTzX2KCTh54gdb6RQacOO03inOOCThxysrR5RwWdNlyKpLnHBJ00VKKU+ccELT0iIuiU7UCXcA/jg04YYpPp9zE+aGmL0UFP3watJt/L6KClrcYGPXkLaO79jA1a2sOghTIy6KmvM/1q4j2NDFray6CFYtBCGRf0xM9lum3afY0LWnqGQQvFoIVi0EIxaKEYtFAMWigGLRSDFopBC8WghWLQQjFooRi0UAxaKAYtFIMWikELxaCFYtBCMWihGLRQxgWd/l3Tbabd17igpWcYtFAMWigjg572uUzXTbynkUFLexm0UMYGPfF1pv9MvZ+xQUt7jA566hZoN/leRgctbTU+6MnboNH0+xgf9Frzh9gi4R4igpYeFRN0wnYgS5l/TNBr5QyVJmnuUUGvlTVcgrR5xwW9Vt6QUyXOOTLotTKHnSR1vrFBr5U79OmS5xod9FrZw58ofZ5vX799//HqhzjKtO+dTpIe8kn8hj5HuZSPRpobakOfc1vfRwr5BBv0iWH/HzHkE3zQ55rjJkd8riroS+TAWwK+VB20eFC/5ZAMWigGLRSDFopBC8WghWLQQjFooRi0UAxaKAYtFIMWyr/vFT7qI3kY5wAAAABJRU5ErkJggg==";
 const FORMATS = {
+  "3+0": { count: 3, formations: ["1-2", "2-1"] },
+  "3+1": { count: 4, formations: ["1-2", "2-1"] },
   "4+1": { count: 5, formations: ["1-2-1"] },
   "5+1": { count: 6, formations: ["1-3-1", "2-1-2"] },
   "6+1": { count: 7, formations: ["2-3-1", "3-1-2"] },
@@ -775,6 +777,28 @@ function addEvent(m,label,team) {
 function getLayout(match) {
   const key = `${match.format}|${match.formation}`;
   const layouts = {
+    "3+0|1-2": [
+      {id:"st", label:"Útočník", x:50, y:28},
+      {id:"ld", label:"Levá obrana", x:32, y:60},
+      {id:"rd", label:"Pravá obrana", x:68, y:60},
+    ],
+    "3+0|2-1": [
+      {id:"lst", label:"Levý útočník", x:34, y:28},
+      {id:"rst", label:"Pravý útočník", x:66, y:28},
+      {id:"def", label:"Obránce", x:50, y:62},
+    ],
+    "3+1|1-2": [
+      {id:"st", label:"Útočník", x:50, y:24},
+      {id:"ld", label:"Levá obrana", x:32, y:56},
+      {id:"rd", label:"Pravá obrana", x:68, y:56},
+      {id:"gk", label:"Brankář", x:50, y:84},
+    ],
+    "3+1|2-1": [
+      {id:"lst", label:"Levý útočník", x:34, y:24},
+      {id:"rst", label:"Pravý útočník", x:66, y:24},
+      {id:"def", label:"Obránce", x:50, y:56},
+      {id:"gk", label:"Brankář", x:50, y:84},
+    ],
     "4+1|1-2-1": [
       {id:"st", label:"Útočník", x:50, y:18},
       {id:"lm", label:"Levá záložnice", x:24, y:42},
