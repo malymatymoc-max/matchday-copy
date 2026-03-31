@@ -2291,13 +2291,25 @@ function movePlayerFromCurrentTeam(playerId, targetTeamId) {
 }
 function deleteCurrentTeam() {
   const team = currentDetailTeam();
-  if(!team || state.teams.length <= 1) return;
+  if(!team) return;
+  const shouldDelete = window.confirm("Opravdu chceš smazat tento tým? Smažou se i všechna navázaná utkání.");
+  if(!shouldDelete) return;
+  const removedMatchIds = new Set(state.matches.filter(match => match.category === team.id).map(match => match.id));
+  state.matches = state.matches.filter(match => match.category !== team.id);
   state.teams = state.teams.filter(item => item.id !== team.id);
+  if(state.currentMatchId && removedMatchIds.has(state.currentMatchId)) {
+    stopTimer();
+    state.currentMatchId = null;
+  }
   saveTeams();
+  saveMatches();
   state.currentTeamDetailId = null;
+  state.currentPlayerProfileId = null;
+  $("playerProfileDialog").close();
   $("renameTeamDialog").close();
   $("teamDetailDialog").close();
   refreshTeamsUi();
+  if(!currentMatch()) showHome();
 }
 function registerSW() {
   if("serviceWorker" in navigator) {
